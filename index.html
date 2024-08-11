@@ -1,8 +1,50 @@
 <html>
     <head>
         <title>note-taker</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                flex-direction: column;
+            }
+            h1 {
+                color: #333;
+            }
+            button {
+                background-color: #008cba;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+            button:hover {
+                background-color: #005f5f;
+            }
+        </style>
     </head>
     <body>
         <h1>Hello World</h1>
+        <button id="btn">Click me</button>
+        <script>
+            const btn = document.getElementById("btn");
+            btn.addEventListener("click", (event) => {
+                alert("Hello");
+            })
+            btn.addEventListener("mouseout", (event) => {
+                alert("Mouse out");
+            })
+        </script>
     </body>
 </html>
