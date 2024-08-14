@@ -1,0 +1,125 @@
+.my-nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: blue;
+    align-items: center;
+    height: 50px;
+    display: flex;
+    justify-content:right;
+    unicode-bidi: isolate;
+}
+.round-large-button {
+    border-radius: 25px;
+    height: 35px;
+    padding: 8px;
+    text-align: center;
+    background-color: antiquewhite;
+    font-size: medium;
+    cursor: pointer;
+}
+.click-me {
+    appearance: auto;
+    font-style: oblique;
+    font-weight: 700;
+    font-size: medium;
+    text-align: center;
+    cursor: no-drop;
+    padding-block: 1px;
+    padding-inline: 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonborder;
+    box-sizing: border-box;
+    background-color: buttonface;
+    border-image: initial;
+    border-radius: 25px;
+    height: 35px;
+    padding: 8px;
+    background-color: antiquewhite;
+    
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    unicode-bidi: isolate;
+}
+/* Button to trigger the popup */
+#openPopup {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #FF6347;
+    color: white;
+    border-radius: 5px;
+}
+
+/* The popup container */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup content */
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button (x) */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Input fields */
+input[type="email"],
+input[type="text"],
+input[type="date"]
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: blue;
+}

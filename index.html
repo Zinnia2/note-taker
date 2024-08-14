@@ -1,50 +1,44 @@
 <html>
     <head>
         <title>note-taker</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                flex-direction: column;
-            }
-            h1 {
-                color: #333;
-            }
-            button {
-                background-color: #008cba;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                border-radius: 5px;
-            }
-            button:hover {
-                background-color: #005f5f;
-            }
-        </style>
+        <link rel="stylesheet" href="index_client.css">
     </head>
     <body>
-        <h1>Hello World</h1>
-        <button id="btn">Click me</button>
-        <script>
-            const btn = document.getElementById("btn");
-            btn.addEventListener("click", (event) => {
-                alert("Hello");
-            })
-            btn.addEventListener("mouseout", (event) => {
-                alert("Mouse out");
-            })
-        </script>
+        <div id="nav-bar" class="my-nav-bar">
+            <div>
+                <button id="sign-in" class="round-large-button">sign-in</button>
+                <div id="signinPopup" class="popup">
+                    <div class="popup-content">
+                        <span class="close" id="sign-in-close">&times;</span>
+                        <h2>Sign In</h2>
+                        <form action="#">
+                            <label for="email">Email</label><br>
+                            <input type="email" id="sign-in-email" name="email" required><br><br>
+                            <label for="password">Password</label><br>
+                            <input type="password" id="sign-in-password" name="password" required><br><br>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <button id="sign-up" class="round-large-button">sign-up</button>
+                <div id="signupPopup" class="popup">
+                    <div class="popup-content">
+                        <span class="close" id="sign-up-close">&times;</span>
+                        <h2>Sign Up</h2>
+                        <form action="#">
+                            <label for="email">Email</label><br>
+                            <input type="email" id="email" name="email" required><br><br>
+                            <label for="password">Password</label><br>
+                            <input type="password" id="password" name="password" required><br><br>
+                            <button type="submit" id="sign-up-submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <button id="btn" class="click-me">Click me</button>
+        </div>
+        <script src="index_client.js"></script>
     </body>
 </html>

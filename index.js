@@ -21,17 +21,73 @@
 const http = require("http");
 const fs = require("fs");
 
+function getFileContent(filePath, handler) {
+    fs.readFile(filePath, (err, content) => {
+        if(!err) { 
+            handler(content);
+        }
+    })
+}
+
+function getRequestedFileContentAndContentTypeFromURL(url, handler){
+    if (url === "/"){
+            
+        getFileContent("index.html", (data) => {
+            handler({
+                "content_type": "text/html",
+                "content": data
+            })
+        });
+
+    } else if (url === "/index_client.css") {
+
+        getFileContent("index_client.css", (data) => {
+            handler({
+                "content_type": "text/css",
+                "content": data
+            })
+        });
+    } else if (url === "/index_client.js") {
+        getFileContent("index_client.js", (data) => {
+            handler({
+                "content_type": "application/javascript",
+                "content": data
+            })
+        });
+        
+    };
+}
 
 const server = http.createServer(
     (request, response) => {
-        fs.readFile("index.html", (err, content) => {
-            if(err){
-                console.log("Error");
-            } else {
-                response.writeHead(200, {"content-type":"text/html"});
-                response.end(content);           
-            }
-        })
+        if(request.url === "/signup" && request.method === "POST") {
+            let body = "";
+            request.on("data", data => {
+                body = body + data.toString();
+            })
+            request.on("end", () => {
+                try {
+                    console.log(JSON.parse(body))
+                    response.writeHead(200, {"content_type": "application/json"})
+                    response.end(JSON.stringify({ message: 'User successfully registered' }))
+                } catch (error) {
+                    console.log("Error parsing JSON")
+                    console.log(error)
+                    response.writeHead(400, {"content_type": "application/json"})
+                    response.end(JSON.stringify({ message: 'Error in data' }))
+                }
+                
+            })
+
+        } else if(request.url === "/signin" && request.method === "POST") {
+
+        } else {
+
+            getRequestedFileContentAndContentTypeFromURL(request.url, (contentAndContentType) => {
+                response.writeHead(200, {"content_type":contentAndContentType.content_type});
+                response.end(contentAndContentType.content);
+            })
+        }
     }
 );
 
