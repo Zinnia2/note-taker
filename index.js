@@ -1,22 +1,31 @@
-// // Import the mysql2 package
-// const mysql = require('mysql2');
+// Import the mysql2 package
+const mysql = require('mysql2');
 
-// // Create a connection to the database
-// const connection = mysql.createConnection({
-//   host: 'localhost', // Replace with your MySQL server host
-//   user: 'root',      // Replace with your MySQL username
-//   password: '12345678',  // Replace with your MySQL password
-//   database: 'note_taker_db' // Replace with your database name
-// });
+// Create a connection to the database
+const connection = mysql.createConnection({
+  host: 'localhost', // Replace with your MySQL server host
+  user: 'root',      // Replace with your MySQL username
+  password: '12345678',  // Replace with your MySQL password
+  database: 'note_taker_db' // Replace with your database name
+});
 
-// // Connect to the MySQL server
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Error connecting to the database:', err.stack);
-//     return;
-//   }
-//   console.log('Connected to the database as id', connection.threadId);
-// });
+// Connect to the MySQL server
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err.stack);
+    return;
+  }
+  console.log('Connected to the database as id', connection.threadId);
+});
+
+// Insert Data into the "user" Table
+
+function addUser(email, passwordHash, addUserHandler) {
+    const query = 'INSERT INTO user (email, password_hash) VALUES (?, ?)';
+
+    connection.query(query, [email, passwordHash], addUserHandler);
+}
+
 
 const http = require("http");
 const fs = require("fs");
@@ -67,9 +76,21 @@ const server = http.createServer(
             })
             request.on("end", () => {
                 try {
-                    console.log(JSON.parse(body))
-                    response.writeHead(200, {"content_type": "application/json"})
-                    response.end(JSON.stringify({ message: 'User successfully registered' }))
+                    const email = JSON.parse(body).email
+                    const password = JSON.parse(body).password
+                    addUser(email, password, (err, result) => {
+                        if (err) {
+                            console.error('Error inserting data:', err.stack)
+                            console.log(err)
+                            response.writeHead(500, {"content_type": "application/json"})
+                            response.end(JSON.stringify({ message: 'Error in database' }))
+                            return;
+                        }
+                        const responseBody = JSON.stringify({ message: 'User successfully registered' })
+                        response.writeHead(200, {"content_type": "application/json", "content-length": Buffer.byteLength(responseBody)})
+                        response.end(responseBody)
+                    })
+
                 } catch (error) {
                     console.log("Error parsing JSON")
                     console.log(error)

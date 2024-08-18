@@ -48,6 +48,7 @@ window.onclick = function(event) {
 }
 
 signupSubmitButton.addEventListener("click", (event) => {
+    event.preventDefault()
     const signUpEndPoint = `http://${window.location.hostname}:${window.location.port}/signup`;
     const payload = {
         email : document.getElementById("email").value,
@@ -66,5 +67,9 @@ signupSubmitButton.addEventListener("click", (event) => {
         }
     }).then(data => {
         console.log(data)
+    }).catch(error => {
+        console.log(error)
+    }).finally(() => {
+        
     })
 })
