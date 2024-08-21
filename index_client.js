@@ -14,6 +14,7 @@ const signInCloseButton = document.getElementById("sign-in-close");
 const signUpCloseButton = document.getElementById("sign-up-close");
 
 const signupSubmitButton = document.getElementById("sign-up-submit");
+const signinSubmitButton = document.getElementById("sign-in-submit");
 
 // When the user clicks the button, open the popup
 signInButton.addEventListener("click", (event) => {
@@ -31,6 +32,37 @@ window.onclick = function(event) {
         signinPopup.style.display = "none";
     }
 }
+signinSubmitButton.addEventListener("click", (event) => {
+    event.preventDefault()
+    const signINEndPoint = `http://${window.location.hostname}:${window.location.port}/login`;
+    const payload = {
+        email : document.getElementById("sign-in-email").value,
+        password : document.getElementById("sign-in-password").value
+    }
+    console.log(payload)
+
+    fetch(signINEndPoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok ${response.statusText}`);
+        }
+        return response.json(); 
+    })
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Display an appropriate message to the user, like:
+        alert('Login failed: ' + error.message);
+    });
+})
 signUpButton.addEventListener("click", (event) => {
     signupPopup.style.display = "flex";
 })
@@ -42,7 +74,7 @@ signUpCloseButton.addEventListener("click", (event) => {
 
 // When the user clicks anywhere outside of the popup, close it
 window.onclick = function(event) {
-    if (event.target === signinPopup) {
+    if (event.target === signupPopup) {
         signupPopup.style.display = "none";
     }
 }

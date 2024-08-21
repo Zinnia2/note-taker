@@ -27,8 +27,10 @@ function addUser(email, passwordHash, addUserHandler) {
 }
 
 
+
 const http = require("http");
 const fs = require("fs");
+const { error } = require('console');
 
 function getFileContent(filePath, handler) {
     fs.readFile(filePath, (err, content) => {
@@ -100,8 +102,47 @@ const server = http.createServer(
                 
             })
 
-        } else if(request.url === "/signin" && request.method === "POST") {
+        } else if(request.url === "/login" && request.method === "POST") {
+            let body = '';
 
+            request.on("data", data => {
+                body += data.toString();
+            });
+            
+            request.on("end", () =>{
+                const {email, password} = JSON.parse(body);
+
+                // Query to find the user by email
+
+                const query = "Select * FROM user WHERE email = ?";
+
+                connection.query(query, [email], (err, results) => {
+                    if (err) {
+                        console.error('Database query error:', err);
+                        response.writeHead(501, { 'Content-Type': 'application/json' });
+                        response.end(JSON.stringify({ error: 'Internal server error' }));
+                        return;
+                    }
+                    
+                    if (results.length === 0) {
+                        // No user found with that email
+                        response.writeHead(400, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({error: "Invalid email or passwird"}));
+                        return;
+                    }
+
+                    const user = results[0];
+                    console.log(user)
+
+                    if(password === user.password_hash){
+                        response.writeHead(200, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({message: "Signin successful", user: user.email}));
+                    } else {
+                        response.writeHead(401, {'Content-Type': 'application/json'})
+                        response.end(JSON.stringify({ error: 'Invalid email or password'}));
+                    }
+                });
+            });
         } else {
 
             getRequestedFileContentAndContentTypeFromURL(request.url, (contentAndContentType) => {
